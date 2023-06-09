@@ -21,7 +21,7 @@ public class RentServiceTest {
         Rent rent = service.rentMovie(user, movie);
 
         // verificacao
-        Assert.assertTrue(rent.getValue() == 5.0);
+        Assert.assertEquals(5.0, rent.getValue(), 0.01);
         Assert.assertTrue(DateUtils.isSameDate(rent.getDataRent(), new Date()));
         Assert.assertTrue(DateUtils.isSameDate(rent.getDataReturn(), DateUtils.getDateWithDaysDifference(1)));
     }
