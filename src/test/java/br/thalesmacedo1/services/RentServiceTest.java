@@ -5,6 +5,7 @@ import java.util.Date;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.core.Is;
 import org.junit.*;
+import org.junit.rules.ErrorCollector;
 
 import br.thalesmacedo1.entities.Movie;
 import br.thalesmacedo1.entities.Rent;
@@ -12,6 +13,10 @@ import br.thalesmacedo1.entities.User;
 import br.thalesmacedo1.utils.DateUtils;
 
 public class RentServiceTest {
+
+    @Rule
+    public ErrorCollector error = new ErrorCollector();
+
     @Test
     public void teste() {
         // cenario
@@ -23,13 +28,13 @@ public class RentServiceTest {
         Rent rent = service.rentMovie(user, movie);
 
         // verificacao
-        Assert.assertEquals(5.0, rent.getValue(), 0.01);
-        Assert.assertThat(DateUtils.isSameDate(rent.getDataRent(), new Date()), CoreMatchers.is(true));
-        Assert.assertThat(DateUtils.isSameDate(rent.getDataReturn(), DateUtils.getDateWithDaysDifference(1)),
+        // error.checkThat(rent.getValue(), CoreMatchers.is(6.0));
+        error.checkThat(DateUtils.isSameDate(rent.getDataRent(), new Date()), CoreMatchers.is(true));
+        error.checkThat(DateUtils.isSameDate(rent.getDataReturn(), DateUtils.getDateWithDaysDifference(1)),
                 CoreMatchers.is(true));
 
-        Assert.assertThat(rent.getValue(), CoreMatchers.is(5.0));
-        Assert.assertThat(rent.getValue(), CoreMatchers.not(4.0));
+        error.checkThat(rent.getValue(), CoreMatchers.is(5.0));
+        error.checkThat(rent.getValue(), CoreMatchers.not(4.0));
 
     }
 }
