@@ -2,6 +2,8 @@ package br.thalesmacedo1.services;
 
 import java.util.Date;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.core.Is;
 import org.junit.*;
 
 import br.thalesmacedo1.entities.Movie;
@@ -22,7 +24,12 @@ public class RentServiceTest {
 
         // verificacao
         Assert.assertEquals(5.0, rent.getValue(), 0.01);
-        Assert.assertTrue(DateUtils.isSameDate(rent.getDataRent(), new Date()));
-        Assert.assertTrue(DateUtils.isSameDate(rent.getDataReturn(), DateUtils.getDateWithDaysDifference(1)));
+        Assert.assertThat(DateUtils.isSameDate(rent.getDataRent(), new Date()), CoreMatchers.is(true));
+        Assert.assertThat(DateUtils.isSameDate(rent.getDataReturn(), DateUtils.getDateWithDaysDifference(1)),
+                CoreMatchers.is(true));
+
+        Assert.assertThat(rent.getValue(), CoreMatchers.is(5.0));
+        Assert.assertThat(rent.getValue(), CoreMatchers.not(4.0));
+
     }
 }
